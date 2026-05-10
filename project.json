@@ -1,0 +1,24 @@
+{
+  "overview": "A mobile-first Gen AI teaching platform for students and professionals. Features a full course catalog, rich lesson content, quizzes with instant feedback, student progress tracking, and an admin panel to manage all curriculum content. Comes pre-loaded with sample Gen AI courses covering Prompt Engineering, Ethical AI, and GenAI Fundamentals.",
+  "features": [
+    "Course catalog with difficulty levels and lesson counts",
+    "Rich lesson viewer with code examples and Gen AI content",
+    "Multiple-choice quizzes with instant feedback and explanations",
+    "Student dashboard with progress tracking and resume feature",
+    "Student login via Internet Identity",
+    "Admin panel to create and manage courses, lessons, and quizzes",
+    "Pre-loaded Gen AI curriculum (3 courses, 10+ lessons, 9+ quizzes)",
+    "Mobile-first responsive design"
+  ],
+  "category": "education",
+  "tags": [
+    "gen-ai",
+    "education",
+    "e-learning",
+    "courses",
+    "quizzes",
+    "mobile",
+    "learning-management"
+  ],
+  "last_updated": "2026-05-10T17:56:21.772Z"
+}

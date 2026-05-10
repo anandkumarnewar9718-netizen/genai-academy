@@ -1,0 +1,137 @@
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserId = principal;
+type UpdateQuizArgs = 
+ record {
+   id: QuizId;
+   lessonId: LessonId;
+   questions: vec Question;
+   title: text;
+ };
+type UpdateLessonArgs = 
+ record {
+   content: text;
+   courseId: CourseId;
+   id: LessonId;
+   learningObjectives: vec text;
+   orderIndex: nat;
+   quizId: opt QuizId;
+   title: text;
+ };
+type UpdateCourseArgs = 
+ record {
+   description: text;
+   difficulty: Difficulty;
+   id: CourseId;
+   learningObjectives: vec text;
+   thumbnail: text;
+   title: text;
+ };
+type Timestamp = int;
+type StudentProgress = 
+ record {
+   completedLessons: vec LessonId;
+   courseId: CourseId;
+   enrolledAt: Timestamp;
+   lastVisitedLessonId: opt LessonId;
+   quizScores: vec QuizScoreEntry;
+   userId: UserId;
+ };
+type QuizScoreEntry = 
+ record {
+   lessonId: LessonId;
+   score: nat;
+ };
+type QuizId = nat;
+type Quiz = 
+ record {
+   id: QuizId;
+   lessonId: LessonId;
+   questions: vec Question;
+   title: text;
+ };
+type Question = 
+ record {
+   correctAnswerIndex: nat;
+   explanation: text;
+   options: vec text;
+   questionText: text;
+ };
+type LessonId = nat;
+type Lesson = 
+ record {
+   content: text;
+   courseId: CourseId;
+   id: LessonId;
+   learningObjectives: vec text;
+   orderIndex: nat;
+   quizId: opt QuizId;
+   title: text;
+ };
+type Difficulty = 
+ variant {
+   Advanced;
+   Beginner;
+   Intermediate;
+ };
+type CreateQuizArgs = 
+ record {
+   lessonId: LessonId;
+   questions: vec Question;
+   title: text;
+ };
+type CreateLessonArgs = 
+ record {
+   content: text;
+   courseId: CourseId;
+   learningObjectives: vec text;
+   orderIndex: nat;
+   title: text;
+ };
+type CreateCourseArgs = 
+ record {
+   description: text;
+   difficulty: Difficulty;
+   learningObjectives: vec text;
+   thumbnail: text;
+   title: text;
+ };
+type CourseId = nat;
+type Course = 
+ record {
+   description: text;
+   difficulty: Difficulty;
+   id: CourseId;
+   learningObjectives: vec text;
+   lessonOrder: vec LessonId;
+   thumbnail: text;
+   title: text;
+ };
+service : {
+  _initializeAccessControl: () -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createCourse: (args: CreateCourseArgs) -> (Course);
+  createLesson: (args: CreateLessonArgs) -> (Lesson);
+  createQuiz: (args: CreateQuizArgs) -> (Quiz);
+  deleteCourse: (id: CourseId) -> (bool);
+  deleteLesson: (id: LessonId) -> (bool);
+  deleteQuiz: (id: QuizId) -> (bool);
+  enrollInCourse: (courseId: CourseId) -> (StudentProgress);
+  getCallerUserRole: () -> (UserRole) query;
+  getCourse: (id: CourseId) -> (opt Course) query;
+  getLesson: (id: LessonId) -> (opt Lesson) query;
+  getLessonsForCourse: (courseId: CourseId) -> (vec Lesson) query;
+  getMyProgress: (courseId: CourseId) -> (opt StudentProgress) query;
+  getQuizForLesson: (lessonId: LessonId) -> (opt Quiz) query;
+  isCallerAdmin: () -> (bool) query;
+  listCourses: () -> (vec Course) query;
+  markLessonComplete: (courseId: CourseId, lessonId: LessonId) -> ();
+  saveQuizScore: (courseId: CourseId, lessonId: LessonId, score: nat) -> ();
+  updateCourse: (args: UpdateCourseArgs) -> (opt Course);
+  updateLesson: (args: UpdateLessonArgs) -> (opt Lesson);
+  updateQuiz: (args: UpdateQuizArgs) -> (opt Quiz);
+}

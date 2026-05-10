@@ -1,0 +1,93 @@
+// Version: 1.0.0
+type CourseId__927523888 = Nat;
+type Course__321233390 =
+  {
+    description : Text;
+    difficulty : Difficulty__971497521;
+    id : CourseId__927523888;
+    learningObjectives : [Text];
+    lessonOrder : [LessonId__21783266];
+    thumbnail : Text;
+    title : Text
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Difficulty__971497521 = {#Advanced; #Beginner; #Intermediate};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type LessonId__21783266 = Nat;
+type Lesson__402185661 =
+  {
+    content : Text;
+    courseId : CourseId__927523888;
+    id : LessonId__21783266;
+    learningObjectives : [Text];
+    orderIndex : Nat;
+    quizId : ?QuizId__438791917;
+    title : Text
+  };
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type Question__322196058 =
+  {
+    correctAnswerIndex : Nat;
+    explanation : Text;
+    options : [Text];
+    questionText : Text
+  };
+type QuizId__438791917 = Nat;
+type QuizScoreEntry__229343500 = {lessonId : LessonId__21783266; score : Nat};
+type Quiz__109335985 =
+  {
+    id : QuizId__438791917;
+    lessonId : LessonId__21783266;
+    questions : [Question__322196058];
+    title : Text
+  };
+type StudentProgress__488106522 =
+  {
+    completedLessons : [LessonId__21783266];
+    courseId : CourseId__927523888;
+    enrolledAt : Timestamp__301639476;
+    lastVisitedLessonId : ?LessonId__21783266;
+    quizScores : [QuizScoreEntry__229343500];
+    userId : UserId__158757552
+  };
+type Timestamp__301639476 = Int;
+type UserId__158757552 = Principal;
+type UserRole__1073662873 = {#admin; #guest; #user};
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1073662873>
+    };
+  stable coursesState :
+    {
+      courses : Map__605269027<CourseId__927523888, Course__321233390>;
+      state : {var nextCourseId : Nat}
+    };
+  stable lessonsState :
+    {
+      lessons : Map__605269027<LessonId__21783266, Lesson__402185661>;
+      state : {var nextLessonId : Nat}
+    };
+  stable progressState :
+    {
+      progress :
+        Map__605269027<(UserId__158757552, CourseId__927523888),
+                        StudentProgress__488106522>
+    };
+  stable quizzesState :
+    {
+      quizzes : Map__605269027<QuizId__438791917, Quiz__109335985>;
+      state : {var nextQuizId : Nat}
+    }
+};
